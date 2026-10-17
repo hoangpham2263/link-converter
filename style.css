@@ -360,3 +360,15 @@ input:focus, textarea:focus, select:focus,
 .acc-link code{background:none;padding:0;border-radius:0;font-family:inherit;font-size:14px}
 /* One text color and size for labels and values */
 .acc-head,.acc-link-label,#accCount{color:var(--fg);font-size:14px}
+/* Size scale: 14px text, 36px controls everywhere */
+.acc-row input,.acc-link .btn-sm,.acc-row .btn-icon,.add-acc,#publish,#run,#clear{height:36px;font-size:14px}
+.acc-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 36px}
+.acc-head{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 36px}
+.acc-row .btn-icon{width:36px;padding:0;display:inline-flex;align-items:center;justify-content:center}
+.acc-link .btn-sm{padding:0 14px}
+#publish,#run,#clear{padding:0 16px;border-radius:8px}
+.add-acc{border-radius:8px}
+.acc{padding:12px;border-radius:10px}
+.acc-link{margin-top:10px}
+.sec-head h2{font-size:16px}
+@media (max-width:640px){.acc-link .btn-sm{height:36px}}
