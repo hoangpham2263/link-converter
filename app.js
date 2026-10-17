@@ -128,6 +128,14 @@
 
   $("addAcc").onclick = () => { accounts.push({ name: `Tài khoản ${accounts.length + 1}`, id: "" }); save(); renderAccounts(); };
   $("run").onclick = run;
+  // Show pasted links readable: %E1%BB%87 → ệ (parsing still works on the decoded text)
+  const tidy = () => {
+    const el = $("links");
+    const v = el.value.replace(/https?:\/\/[^\s"'<>]+/gi, (u) => { try { return decodeURI(u); } catch { return u; } });
+    if (v !== el.value) el.value = v;
+  };
+  $("links").addEventListener("paste", () => setTimeout(tidy));
+  $("links").addEventListener("blur", tidy);
   $("clear").onclick = () => { $("links").value = ""; $("out").hidden = true; $("summary").textContent = ""; };
   // Publish accounts.json to the repo through the GitHub API (token kept only in this browser)
   const REPO = "hoangpham2263/link-converter";
