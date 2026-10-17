@@ -115,7 +115,7 @@
         const name = Object.assign(document.createElement("a"), { href: x.product, target: "_blank", rel: "noopener", textContent: productName(x.product), className: "res-name", title: pretty(x.product) });
         const row = document.createElement("div");
         row.className = "res-link";
-        const url = Object.assign(document.createElement("span"), { className: "res-url", textContent: `https://s.shopee.vn/an_redir?origin_link=${pretty(x.product)}&affiliate_id=${a.id}`, title: link });
+        const url = Object.assign(document.createElement("span"), { className: "res-url", textContent: `https://s.shopee.vn/an_redir?origin_link=${pretty(x.product.split("?")[0])}${x.product.includes("?") ? "?…" : ""}&affiliate_id=${a.id}`, title: link });
         const cp = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm", textContent: "Sao chép" });
         cp.onclick = () => copy(link, cp);
         const op = Object.assign(document.createElement("a"), { className: "btn-sm", textContent: "Mở link", href: link, target: "_blank", rel: "noopener" });
@@ -132,7 +132,8 @@
   // Show pasted links readable: %E1%BB%87 → ệ (parsing still works on the decoded text)
   const tidy = () => {
     const el = $("links");
-    const v = el.value.replace(/https?:\/\/[^\s"'<>]+/gi, (u) => { try { return decodeURI(u); } catch { return u; } });
+    // Decode only the path; the query (extraParams JSON) must stay encoded or quotes break parsing
+    const v = el.value.replace(/https?:\/\/[^\s"'<>?#]+/gi, (u) => { try { return decodeURI(u); } catch { return u; } });
     if (v !== el.value) el.value = v;
   };
   $("links").addEventListener("paste", () => setTimeout(tidy));
