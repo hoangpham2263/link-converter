@@ -393,3 +393,9 @@ input:focus, textarea:focus, select:focus,
 .res-actions{margin:4px 0 0 84px}
 @media (max-width:640px){.res-row{grid-template-columns:1fr;gap:2px}.res-actions{margin-left:0}}
 .res-key{color:var(--fg)}
+.res-actions .btn-sm,#copyAll .btn-sm{white-space:nowrap;padding:0 14px;min-width:0}
+@media (max-width:640px){
+  .res-actions{display:grid;grid-template-columns:1fr 1fr;margin-left:0}
+  .res-actions .btn-sm,#copyAll .btn-sm{width:100%}
+  #copyAll{display:grid}
+}
