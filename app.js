@@ -29,7 +29,7 @@
         link.className = "acc-link";
         const lbl = Object.assign(document.createElement("span"), { className: "acc-link-label", textContent: "Link:" });
         const code = document.createElement("code");
-        const cp = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm", textContent: "Sao chép" });
+        const cp = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm btn-copy", textContent: "Sao chép" });
         const open = Object.assign(document.createElement("a"), { className: "btn-sm", textContent: "Mở link", target: "_blank", rel: "noopener" });
         const sync = () => {
           id.classList.toggle("bad", !!a.id && !ShopeeLink.validId(a.id));
@@ -82,7 +82,7 @@
     const bad = items.length - ok.length;
     $("summary").textContent = bad ? `${bad} link không đổi được` : "";
 
-    const all = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm", textContent: "Sao chép tất cả" });
+    const all = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm btn-copy", textContent: "Sao chép tất cả" });
     all.onclick = () => copy(ok.map((x) => ShopeeLink.build(x.product, a.id)).join("\n"), all);
     $("copyAll").replaceChildren(...(ok.length > 1 ? [all] : []));
     $("copyAll").hidden = ok.length < 2;
@@ -116,7 +116,7 @@
         const row = document.createElement("div");
         row.className = "res-link";
         const url = Object.assign(document.createElement("span"), { className: "res-url", textContent: `https://s.shopee.vn/an_redir?origin_link=${pretty(x.product.split("?")[0])}${x.product.includes("?") ? "?…" : ""}&affiliate_id=${a.id}`, title: link });
-        const cp = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm", textContent: "Sao chép" });
+        const cp = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm btn-copy", textContent: "Sao chép" });
         cp.onclick = () => copy(link, cp);
         const op = Object.assign(document.createElement("a"), { className: "btn-sm", textContent: "Mở link", href: link, target: "_blank", rel: "noopener" });
         row.append(url, cp, op);

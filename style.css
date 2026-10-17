@@ -408,3 +408,7 @@ input:focus, textarea:focus, select:focus,
 .res-link .btn-sm{display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--fg);font:inherit;font-size:14px;font-weight:400;white-space:nowrap;text-decoration:none;cursor:pointer}
 .res-link .btn-sm:hover{background:#f8fafc}
 @media (max-width:640px){.res-link{grid-template-columns:1fr 1fr}.res-link .res-url{grid-column:1/-1}.res-link .btn-sm{width:100%}}
+
+/* Copy = primary action, Mở link = secondary */
+.acc-link .btn-copy,.res-link .btn-copy,#copyAll .btn-copy{background:var(--primary);border-color:var(--primary);color:#fff}
+.acc-link .btn-copy:hover,.res-link .btn-copy:hover,#copyAll .btn-copy:hover{background:var(--primary);filter:brightness(.92)}
