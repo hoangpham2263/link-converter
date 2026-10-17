@@ -6,8 +6,8 @@
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(accounts)); } catch {} };
   // "Ngân PTK" → "ngan-ptk": lowercase, no diacritics, hyphens
   const slug = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/gi, "d").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-  // Share mode: /shopee-aff/<slug> (served by 404.html) or ?n=<slug>; the ID is looked up in accounts.json
-  const BASE = "/shopee-aff/";
+  // Share mode: /link-converter/<slug> (served by 404.html) or ?n=<slug>; the ID is looked up in accounts.json
+  const BASE = "/link-converter/";
   const tail = location.pathname.startsWith(BASE) ? location.pathname.slice(BASE.length).replace(/\/$/, "") : "";
   const n = new URLSearchParams(location.search).get("n") || (/^(index|404)(\.html)?$/.test(tail) ? "" : tail);
   let accounts = n ? [] : load();
@@ -103,14 +103,14 @@
   $("run").onclick = run;
   $("clear").onclick = () => { $("links").value = ""; $("out").hidden = true; $("summary").textContent = ""; };
   // Publish accounts.json to the repo through the GitHub API (token kept only in this browser)
-  const REPO = "hoangpham2263/shopee-aff";
+  const REPO = "hoangpham2263/link-converter";
   async function publish() {
     const btn = $("publish"), say = (t) => ($("pubStatus").textContent = t);
     const out = {};
     for (const a of accounts) if (ShopeeLink.validId(a.id) && slug(a.name)) out[slug(a.name)] = { name: a.name, id: a.id };
     let token = localStorage.getItem("slc-token");
     if (!token) {
-      token = (prompt("Dán GitHub token (fine-grained, chỉ repo shopee-aff, quyền Contents: Read and write):") || "").trim();
+      token = (prompt("Dán GitHub token (fine-grained, chỉ repo link-converter, quyền Contents: Read and write):") || "").trim();
       if (!token) return;
       localStorage.setItem("slc-token", token);
     }
