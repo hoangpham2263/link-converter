@@ -330,3 +330,8 @@ h1 { font-weight: 600; }
   .acc-link{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .acc-link .btn-sm{width:100%;padding:0}
 }
+
+.who{margin:0;padding:12px 16px;gap:12px}
+.who-avatar{width:40px;height:40px;font-size:15px}
+.who strong{font-size:18px}
+#summary:empty{display:none}

@@ -143,13 +143,8 @@
         accounts = [a];
         const initials = a.name.split(/\s+/).filter(Boolean).map((w) => w[0]).slice(-2).join("").toUpperCase();
         const av = Object.assign(document.createElement("span"), { className: "who-avatar", textContent: initials });
-        const txt = document.createElement("div");
-        txt.append(
-          Object.assign(document.createElement("small"), { textContent: "Bạn đang đổi link cho" }),
-          Object.assign(document.createElement("strong"), { textContent: a.name })
-        );
-        const tag = Object.assign(document.createElement("span"), { className: "who-tag", textContent: "✓ Shopee Affiliate" });
-        $("who").replaceChildren(av, txt, tag);
+        const nm = Object.assign(document.createElement("strong"), { textContent: a.name });
+        $("who").replaceChildren(av, nm);
       } else {
         $("who").textContent = "Không tìm thấy tài khoản này — kiểm tra lại link.";
         $("who").classList.add("missing");
