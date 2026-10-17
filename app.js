@@ -6,10 +6,12 @@
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(accounts)); } catch {} };
   // Share mode: ?id=<affiliate id>&n=<name> — a friend converts links for that one account only
   const q = new URLSearchParams(location.search);
-  const shared = ShopeeLink.validId(q.get("id") || "") ? { name: q.get("n") || "", id: q.get("id") } : null;
+  const shared = ShopeeLink.validId(q.get("id") || "") ? { name: (q.get("n") || "").split("-").filter(Boolean).map((w) => w[0].toUpperCase() + w.slice(1)).join(" "), id: q.get("id") } : null;
   let accounts = shared ? [shared] : load();
   if (!accounts.length) accounts = [{ name: "Tài khoản 1", id: "" }];
-  const shareUrl = (a) => `${location.origin}${location.pathname}?${new URLSearchParams({ id: a.id, n: a.name })}`;
+  // "Ngân PTK" → "ngan-ptk": lowercase, no diacritics, hyphens
+  const slug = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/gi, "d").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const shareUrl = (a) => `${location.origin}${location.pathname}?${new URLSearchParams(slug(a.name) ? { n: slug(a.name), id: a.id } : { id: a.id })}`;
 
   function renderAccounts() {
     $("accounts").replaceChildren(
