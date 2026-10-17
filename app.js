@@ -119,7 +119,7 @@
         const op = Object.assign(document.createElement("a"), { className: "btn-sm", textContent: "Mở link", href: link, target: "_blank", rel: "noopener" });
         btns.append(cp, op);
         const name = Object.assign(document.createElement("a"), { href: x.product, target: "_blank", rel: "noopener", textContent: productName(x.product), className: "res-name" });
-        box.append(line("Sản phẩm", name), line("Link", Object.assign(document.createElement("span"), { className: "res-url", textContent: link })), btns);
+        box.append(line("Sản phẩm", name), line("Link", Object.assign(document.createElement("span"), { className: "res-url", textContent: `https://s.shopee.vn/an_redir?origin_link=${pretty(x.product)}&affiliate_id=${a.id}`, title: link })), btns);
         return box;
       })
     );
