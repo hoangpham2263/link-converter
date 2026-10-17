@@ -9,13 +9,13 @@
     <title>Shopee Link Converter – Đổi nhiều link Shopee theo nhiều Affiliate ID</title>
     <link rel="icon" href="brand/favicon.ico" sizes="any" />
     <link rel="icon" href="brand/hp-favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="style.css?v=8" />
+    <link rel="stylesheet" href="style.css?v=9" />
   </head>
   <body>
     <main class="wrap">
       <header class="top">
         <a class="brand" href="https://hoangpham.is-a.dev" aria-label="HoangPham"><img src="brand/hp-icon.svg" alt="HoangPham" width="40" height="40" /></a>
-        <div class="top-text"><h1>Đổi link Shopee</h1></div>
+        <div class="top-text"><h1>Đổi link Shopee</h1><p class="muted small sub">Link affiliate theo từng tài khoản</p></div>
         <div class="top-actions">
           <a class="ghost back" href="https://hoangpham.is-a.dev/tools">← Portfolio</a>
         </div>
@@ -24,11 +24,20 @@
       <p id="who" class="who" hidden></p>
 
       <section class="convert" id="accSection">
-        <span class="label">Tài khoản (Affiliate ID Shopee) — mỗi tài khoản có một link riêng để gửi bạn bè. Sửa xong bấm “Cập nhật lên GitHub”.</span>
+        <div class="sec-head">
+          <div>
+            <h2>Tài khoản affiliate</h2>
+            <p class="muted small">Mỗi tài khoản có một link riêng. Gửi link đó cho bạn bè để họ tự đổi link Shopee theo tài khoản của bạn.</p>
+          </div>
+          <span id="accCount" class="pill"></span>
+        </div>
+        <div class="acc-head"><span>Tên (không trùng)</span><span>Affiliate ID Shopee</span><span></span></div>
         <div id="accounts" class="accounts"></div>
-        <div class="bar-actions"><button id="addAcc" class="outline" type="button">+ Thêm tài khoản</button>
+        <button id="addAcc" class="add-acc" type="button">+ Thêm tài khoản</button>
+        <div class="publish-bar">
+          <p id="pubStatus" class="pub-status muted small">Sửa xong bấm “Cập nhật lên GitHub” để link của bạn bè dùng danh sách mới.</p>
           <button id="publish" class="primary" type="button">Cập nhật lên GitHub</button>
-          <span id="pubStatus" class="label small"></span></div>
+        </div>
       </section>
 
       <section class="convert" id="convSection">
@@ -60,7 +69,7 @@
 
       <footer class="muted small">Làm bởi <a href="https://hoangpham.is-a.dev" target="_blank" rel="noopener">Phạm Quốc Hoàng</a> · MIT</footer>
     </main>
-    <script src="shopee.js?v=8"></script>
-    <script src="app.js?v=8"></script>
+    <script src="shopee.js?v=9"></script>
+    <script src="app.js?v=9"></script>
   </body>
 </html>

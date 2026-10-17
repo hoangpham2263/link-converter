@@ -274,3 +274,32 @@ h1 { font-weight: 600; }
 .acc-link.off code{color:var(--muted,#888)}
 .acc-link.off button,.acc-link.off a{opacity:.4;pointer-events:none}
 @media (max-width:640px){.acc-row{grid-template-columns:1fr 1fr 32px}}
+
+/* Admin layout */
+.top-text .sub{margin:2px 0 0}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}
+.sec-head h2{margin:0 0 4px;font-size:17px}
+.sec-head p{margin:0}
+.pill{flex:none;padding:4px 10px;border-radius:999px;background:#eef4ff;color:#1d4ed8;font-size:12px;font-weight:600}
+.acc-head{display:grid;grid-template-columns:1fr 1fr 32px;gap:8px;padding:0 2px 6px;font-size:12px;font-weight:600;color:var(--muted,#64748b);text-transform:uppercase;letter-spacing:.03em}
+.accounts{display:grid;gap:10px}
+.acc{padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--bg);border-bottom:1px solid var(--border)}
+.acc:last-child{border-bottom:1px solid var(--border)}
+.acc-link{display:grid;grid-template-columns:auto 1fr auto auto;gap:8px;align-items:center;margin-top:8px}
+.acc-link-label{font-size:12px;font-weight:600;color:var(--muted,#64748b);white-space:nowrap}
+.acc-link code{padding:7px 10px;background:#f1f5f9;border-radius:8px;font-size:13px;color:#1d4ed8}
+.acc-link .btn-sm{height:32px;padding:0 12px}
+.acc-link a.btn-sm{justify-content:center;border:1px solid var(--border);border-radius:8px;color:inherit}
+.add-acc{width:100%;margin-top:10px;height:40px;border:1px dashed var(--border);border-radius:12px;background:transparent;color:#1d4ed8;font:inherit;font-weight:600;cursor:pointer}
+.add-acc:hover{background:#f8fafc}
+.publish-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+.pub-status{margin:0}
+.pub-status.ok{color:#15803d;font-weight:600}
+.pub-status.err{color:#b91c1c;font-weight:600}
+@media (max-width:640px){
+  .acc-head{display:none}
+  .acc-link{grid-template-columns:1fr auto auto}
+  .acc-link-label{grid-column:1/-1}
+  .publish-bar{flex-direction:column-reverse;align-items:stretch}
+}
+.acc-head{padding:0 13px 6px;grid-template-columns:1fr 1fr 32px}

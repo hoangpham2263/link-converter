@@ -15,6 +15,7 @@
   const shareUrl = (a) => `${location.origin}${BASE}${slug(a.name)}`;
 
   function renderAccounts() {
+    $("accCount").textContent = `${accounts.length} tài khoản`;
     $("accounts").replaceChildren(
       ...accounts.map((a, i) => {
         const box = document.createElement("div");
@@ -26,6 +27,7 @@
         const rm = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm btn-icon", textContent: "✕", title: "Xóa" });
         const link = document.createElement("div");
         link.className = "acc-link";
+        const lbl = Object.assign(document.createElement("span"), { className: "acc-link-label", textContent: "Link gửi bạn bè" });
         const code = document.createElement("code");
         const cp = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm", textContent: "Chép" });
         const open = Object.assign(document.createElement("a"), { className: "btn-sm", textContent: "Mở", target: "_blank", rel: "noopener" });
@@ -41,7 +43,7 @@
         rm.onclick = () => { accounts.splice(i, 1); if (!accounts.length) accounts.push({ name: "Tài khoản 1", id: "" }); save(); renderAccounts(); };
         cp.onclick = () => !link.classList.contains("off") && copy(code.textContent, cp);
         row.append(name, id, rm);
-        link.append(code, cp, open);
+        link.append(lbl, code, cp, open);
         box.append(row, link);
         sync();
         return box;
@@ -125,9 +127,9 @@
       const content = btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(out, null, 2) + "\n")));
       const r = await fetch(api, { method: "PUT", headers, body: JSON.stringify({ message: "data: update accounts", content, sha }) });
       if (!r.ok) throw new Error(`GitHub trả lỗi ${r.status}`);
-      say(`Đã cập nhật ${Object.keys(out).length} tài khoản — link mới chạy sau khoảng 1 phút.`);
+      say(`✓ Đã cập nhật ${Object.keys(out).length} tài khoản lên GitHub — link mới chạy sau khoảng 1 phút.`, "ok");
     } catch (e) {
-      say(e.message);
+      say(e.message, "err");
     }
     btn.disabled = false;
   }
