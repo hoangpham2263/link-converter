@@ -343,3 +343,6 @@ input:focus, textarea:focus, select:focus,
 .who{display:block;margin:0;padding:0;border:0;background:none;font-size:14px;font-weight:400;color:var(--muted,#64748b)}
 .who strong{font-size:inherit;font-weight:600;color:var(--fg)}
 .who.missing{padding:10px 14px;border:1px solid #fecaca;border-radius:10px;background:#fef2f2;color:#b91c1c}
+
+.toast{position:fixed;left:50%;bottom:24px;z-index:50;transform:translate(-50%,12px);padding:10px 16px;border-radius:10px;background:#0f172a;color:#fff;font-size:14px;font-weight:500;box-shadow:0 8px 24px rgba(15,23,42,.18);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
+.toast.show{opacity:1;transform:translate(-50%,0)}

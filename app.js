@@ -29,8 +29,8 @@
         link.className = "acc-link";
         const lbl = Object.assign(document.createElement("span"), { className: "acc-link-label", textContent: "Link gửi bạn bè" });
         const code = document.createElement("code");
-        const cp = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm", textContent: "Chép" });
-        const open = Object.assign(document.createElement("a"), { className: "btn-sm", textContent: "Mở", target: "_blank", rel: "noopener" });
+        const cp = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm", textContent: "Sao chép" });
+        const open = Object.assign(document.createElement("a"), { className: "btn-sm", textContent: "Mở link", target: "_blank", rel: "noopener" });
         const sync = () => {
           id.classList.toggle("bad", !!a.id && !ShopeeLink.validId(a.id));
           const ok = ShopeeLink.validId(a.id) && slug(a.name);
@@ -51,8 +51,19 @@
     );
   }
 
+  // Small toast at the bottom of the screen
+  let toastTimer;
+  const toast = (text) => {
+    let el = $("toast");
+    if (!el) { el = Object.assign(document.createElement("div"), { id: "toast", className: "toast", role: "status" }); document.body.append(el); }
+    el.textContent = text;
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove("show"), 1800);
+  };
   const copy = async (text, btn) => {
-    try { await navigator.clipboard.writeText(text); const t = btn.textContent; btn.textContent = "Đã chép"; setTimeout(() => (btn.textContent = t), 1200); } catch {}
+    try { await navigator.clipboard.writeText(text); toast("✓ Đã sao chép"); }
+    catch { toast("Không sao chép được — hãy chép thủ công"); }
   };
 
   function run() {
@@ -71,7 +82,7 @@
 
     $("copyAll").replaceChildren(
       ...valid.map((a) => {
-        const b = Object.assign(document.createElement("button"), { type: "button", className: "outline", textContent: `Chép tất cả · ${a.name || a.id}` });
+        const b = Object.assign(document.createElement("button"), { type: "button", className: "outline", textContent: `Sao chép tất cả · ${a.name || a.id}` });
         b.onclick = () => copy(ok.map((x) => ShopeeLink.build(x.product, a.id)).join("\n"), b);
         return b;
       })
