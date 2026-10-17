@@ -9,7 +9,7 @@
     <title>Link Converter – Đổi link Shopee theo tài khoản</title>
     <link rel="icon" href="brand/favicon.ico" sizes="any" />
     <link rel="icon" href="brand/hp-favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="style.css?v=34" />
+    <link rel="stylesheet" href="style.css?v=35" />
   </head>
   <body>
     <main class="wrap">
@@ -48,19 +48,28 @@
         <div id="results" class="results"></div>
       </section>
 
-      <details class="howto">
-        <summary>Công cụ hoạt động như thế nào?</summary>
+      <details class="howto" id="howtoShare">
+        <summary>Hướng dẫn sử dụng</summary>
         <ol>
-          <li>Mỗi tài khoản gồm tên (duy nhất) và Affiliate ID Shopee. Tên tạo ra link riêng dạng <code>hoangpham.is-a.dev/link-converter/ten-tai-khoan</code>.</li>
-          <li>Mở link của tài khoản, dán link sản phẩm Shopee (mỗi dòng một link) và nhận link affiliate gắn đúng Affiliate ID của tài khoản đó.</li>
-          <li>Link gốc được làm sạch: gỡ link affiliate cũ, bỏ tham số theo dõi, chỉ giữ thông tin phân loại sản phẩm.</li>
+          <li>Dán link sản phẩm Shopee vào ô trên, mỗi dòng một link.</li>
+          <li>Bấm <b>Đổi link</b>.</li>
+          <li>Bấm <b>Sao chép</b> hoặc <b>Mở link</b> ở link vừa tạo.</li>
         </ol>
-        <p><b>Lưu ý:</b> link rút gọn (<code>s.shopee.vn/…</code>, <code>shp.ee/…</code>) cần mở ra trên trình duyệt để lấy link sản phẩm đầy đủ rồi mới dán vào, vì trang này chạy hoàn toàn trên máy bạn và không gọi máy chủ. Link tạo ra có dạng <code>s.shopee.vn/an_redir?origin_link=…&amp;affiliate_id=…</code>.</p>
+        <p>Link rút gọn (<code>s.shopee.vn/…</code>, <code>shp.ee/…</code>) cần mở trên trình duyệt trước để lấy link sản phẩm đầy đủ.</p>
+      </details>
+
+      <details class="howto" id="howtoAdmin">
+        <summary>Hướng dẫn sử dụng</summary>
+        <ol>
+          <li>Thêm tài khoản: nhập tên và Affiliate ID Shopee.</li>
+          <li>Bấm <b>Cập nhật lên GitHub</b> để lưu.</li>
+          <li>Sao chép link của tài khoản để dùng đổi link.</li>
+        </ol>
       </details>
 
       <footer class="muted small">Làm bởi <a href="https://hoangpham.is-a.dev" target="_blank" rel="noopener">Phạm Quốc Hoàng</a> · MIT</footer>
     </main>
-    <script src="shopee.js?v=34"></script>
-    <script src="app.js?v=34"></script>
+    <script src="shopee.js?v=35"></script>
+    <script src="app.js?v=35"></script>
   </body>
 </html>

@@ -165,6 +165,7 @@
 
   if (n) {
     $("accSection").hidden = true;
+    $("howtoAdmin").hidden = true;
     fetch("accounts.json", { cache: "no-store" }).then((r) => r.json()).catch(() => ({})).then((all) => {
       const a = all[slug(n)];
       if (a && ShopeeLink.validId(a.id)) {
@@ -179,6 +180,7 @@
     });
   } else {
     $("convSection").hidden = true;
+    $("howtoShare").hidden = true;
     renderAccounts();
     // First visit on a new browser: start from the published list
     if (!load().length) fetch("accounts.json", { cache: "no-store" }).then((r) => r.json()).then((all) => {
