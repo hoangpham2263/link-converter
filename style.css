@@ -372,3 +372,14 @@ input:focus, textarea:focus, select:focus,
 .acc-link{margin-top:10px}
 .sec-head h2{font-size:16px}
 @media (max-width:640px){.acc-link .btn-sm{height:36px}}
+
+/* Friend results: full link, plain text */
+#copyAll[hidden]{display:none}
+.res{display:grid;gap:6px;padding:12px;border:1px solid var(--border);border-radius:10px;font-size:14px}
+.res-row{margin:0;line-height:1.5;color:var(--fg)}
+.res-url{word-break:break-all}
+.res.err .res-row{color:var(--warn)}
+.res-actions{display:flex;gap:8px;margin-top:4px}
+.res-actions .btn-sm,#copyAll .btn-sm{display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--fg);font:inherit;font-size:14px;font-weight:400;text-decoration:none;cursor:pointer}
+.res-actions .btn-sm:hover,#copyAll .btn-sm:hover{background:#f8fafc}
+#summary{color:var(--warn)}

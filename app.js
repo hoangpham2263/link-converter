@@ -78,34 +78,39 @@
       return { line, ...r };
     });
     const ok = items.filter((x) => x.product);
-    $("summary").textContent = `${ok.length}/${items.length} link · ${valid.length} tài khoản → ${ok.length * valid.length} link mới`;
+    const a = valid[0];
+    const bad = items.length - ok.length;
+    $("summary").textContent = bad ? `${bad} link không đổi được` : "";
 
-    $("copyAll").replaceChildren(
-      ...valid.map((a) => {
-        const b = Object.assign(document.createElement("button"), { type: "button", className: "outline", textContent: `Sao chép tất cả · ${a.name || a.id}` });
-        b.onclick = () => copy(ok.map((x) => ShopeeLink.build(x.product, a.id)).join("\n"), b);
-        return b;
-      })
-    );
+    const all = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm", textContent: "Sao chép tất cả" });
+    all.onclick = () => copy(ok.map((x) => ShopeeLink.build(x.product, a.id)).join("\n"), all);
+    $("copyAll").replaceChildren(...(ok.length > 1 ? [all] : []));
+    $("copyAll").hidden = ok.length < 2;
+
+    const pretty = (u) => { try { return decodeURI(u); } catch { return u; } };
+    const line = (label, text) => {
+      const p = document.createElement("p");
+      p.className = "res-row";
+      p.append(Object.assign(document.createElement("span"), { textContent: label }), " ", Object.assign(document.createElement("span"), { className: "res-url", textContent: text }));
+      return p;
+    };
     $("results").replaceChildren(
       ...items.map((x) => {
         const box = document.createElement("div");
         box.className = "res";
-        const head = document.createElement("div");
-        head.className = "res-head" + (x.error ? " err" : "");
-        head.textContent = x.error ? `${x.line} — ${x.error}` : x.product;
-        box.append(head);
-        if (x.product) for (const a of valid) {
-          const link = ShopeeLink.build(x.product, a.id);
-          const row = document.createElement("div");
-          row.className = "res-line";
-          const b = Object.assign(document.createElement("b"), { textContent: a.name || a.id });
-          const c = Object.assign(document.createElement("code"), { textContent: link, title: link });
-          const btn = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm", textContent: "Sao chép" });
-          btn.onclick = () => copy(link, btn);
-          row.append(b, c, btn);
-          box.append(row);
+        if (x.error) {
+          box.classList.add("err");
+          box.append(line("Lỗi:", `${x.line} — ${x.error}`));
+          return box;
         }
+        const link = ShopeeLink.build(x.product, a.id);
+        const btns = document.createElement("div");
+        btns.className = "res-actions";
+        const cp = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm", textContent: "Sao chép" });
+        cp.onclick = () => copy(link, cp);
+        const op = Object.assign(document.createElement("a"), { className: "btn-sm", textContent: "Mở link", href: link, target: "_blank", rel: "noopener" });
+        btns.append(cp, op);
+        box.append(line("Sản phẩm:", pretty(x.product)), line("Link:", link), btns);
         return box;
       })
     );
