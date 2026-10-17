@@ -417,3 +417,5 @@ input:focus, textarea:focus, select:focus,
 #addAcc{height:36px;padding:0 16px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--fg);font-size:14px;font-weight:400}
 #addAcc:hover{background:#f8fafc}
 @media (max-width:640px){.publish-actions{display:grid;grid-template-columns:1fr 1fr}}
+.run-actions{justify-content:flex-end}
+#clear{background:var(--bg);color:var(--fg);border:1px solid var(--border);font-weight:400}
