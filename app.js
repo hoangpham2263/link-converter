@@ -141,9 +141,18 @@
       const a = all[slug(n)];
       if (a && ShopeeLink.validId(a.id)) {
         accounts = [a];
-        $("who").textContent = `Link đổi theo tài khoản của ${a.name}`;
+        const initials = a.name.split(/\s+/).filter(Boolean).map((w) => w[0]).slice(-2).join("").toUpperCase();
+        const av = Object.assign(document.createElement("span"), { className: "who-avatar", textContent: initials });
+        const txt = document.createElement("div");
+        txt.append(
+          Object.assign(document.createElement("small"), { textContent: "Bạn đang đổi link cho" }),
+          Object.assign(document.createElement("strong"), { textContent: a.name })
+        );
+        const tag = Object.assign(document.createElement("span"), { className: "who-tag", textContent: "✓ Shopee Affiliate" });
+        $("who").replaceChildren(av, txt, tag);
       } else {
         $("who").textContent = "Không tìm thấy tài khoản này — kiểm tra lại link.";
+        $("who").classList.add("missing");
         $("run").disabled = true;
       }
       $("who").hidden = false;

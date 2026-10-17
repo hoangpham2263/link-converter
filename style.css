@@ -303,3 +303,14 @@ h1 { font-weight: 600; }
   .publish-bar{flex-direction:column-reverse;align-items:stretch}
 }
 .acc-head{padding:0 13px 6px;grid-template-columns:1fr 1fr 32px}
+
+/* Friend view: who this converter belongs to */
+.who{display:flex;align-items:center;gap:14px;margin:0 0 16px;padding:16px 18px;border:1px solid var(--border);border-radius:14px;background:linear-gradient(135deg,#fff7f3 0%,#fff 60%);color:var(--fg);font-weight:400}
+.who[hidden]{display:none}
+.who-avatar{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:#ee4d2d;color:#fff;font-weight:700;font-size:16px;letter-spacing:.02em}
+.who div{flex:1;min-width:0;display:grid;gap:2px}
+.who small{font-size:13px;color:var(--muted,#64748b)}
+.who strong{font-size:19px;line-height:1.2;font-weight:700}
+.who-tag{flex:none;padding:5px 10px;border-radius:999px;background:#fff1ec;color:#d73211;font-size:12px;font-weight:600}
+.who.missing{background:#fef2f2;border-color:#fecaca;color:#b91c1c;font-weight:600}
+@media (max-width:640px){.who-tag{display:none}}
