@@ -27,7 +27,7 @@
         const rm = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm btn-icon", textContent: "✕", title: "Xóa" });
         const link = document.createElement("div");
         link.className = "acc-link";
-        const lbl = Object.assign(document.createElement("span"), { className: "acc-link-label", textContent: "Link" });
+        const lbl = Object.assign(document.createElement("span"), { className: "acc-link-label", textContent: "Link:" });
         const code = document.createElement("code");
         const cp = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm", textContent: "Sao chép" });
         const open = Object.assign(document.createElement("a"), { className: "btn-sm", textContent: "Mở link", target: "_blank", rel: "noopener" });
