@@ -141,8 +141,7 @@
       const a = all[slug(n)];
       if (a && ShopeeLink.validId(a.id)) {
         accounts = [a];
-        const nm = Object.assign(document.createElement("strong"), { textContent: a.name });
-        $("who").replaceChildren(nm);
+        $("who").replaceChildren("Tài khoản: ", Object.assign(document.createElement("strong"), { textContent: a.name }));
       } else {
         $("who").textContent = "Không tìm thấy tài khoản này — kiểm tra lại link.";
         $("who").classList.add("missing");

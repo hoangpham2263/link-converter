@@ -338,3 +338,8 @@ h1 { font-weight: 600; }
 /* Focus: border only, no ring/outline */
 input:focus, textarea:focus, select:focus,
 .field input:focus, .field textarea:focus, .field select:focus, .acc-row input:focus { outline: none; box-shadow: none; border-color: var(--primary); }
+
+/* Friend view: plain "Tài khoản: <name>" line */
+.who{display:block;margin:0;padding:0;border:0;background:none;font-size:14px;font-weight:400;color:var(--muted,#64748b)}
+.who strong{font-size:inherit;font-weight:600;color:var(--fg)}
+.who.missing{padding:10px 14px;border:1px solid #fecaca;border-radius:10px;background:#fef2f2;color:#b91c1c}
