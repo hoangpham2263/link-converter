@@ -383,3 +383,13 @@ input:focus, textarea:focus, select:focus,
 .res-actions .btn-sm,#copyAll .btn-sm{display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--fg);font:inherit;font-size:14px;font-weight:400;text-decoration:none;cursor:pointer}
 .res-actions .btn-sm:hover,#copyAll .btn-sm:hover{background:#f8fafc}
 #summary{color:var(--warn)}
+
+.res{gap:8px;padding:14px 16px}
+.res-row{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;align-items:baseline}
+.res-key{color:var(--muted,#64748b)}
+.res-name{color:var(--fg);text-decoration:none}
+.res-name:hover{text-decoration:underline}
+.res-url{word-break:break-all;font-size:13px;line-height:1.5}
+.res-actions{margin:4px 0 0 84px}
+@media (max-width:640px){.res-row{grid-template-columns:1fr;gap:2px}.res-actions{margin-left:0}}
+.res-key{color:var(--fg)}

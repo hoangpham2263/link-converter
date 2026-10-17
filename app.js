@@ -88,10 +88,18 @@
     $("copyAll").hidden = ok.length < 2;
 
     const pretty = (u) => { try { return decodeURI(u); } catch { return u; } };
-    const line = (label, text) => {
-      const p = document.createElement("p");
+    // "…/Kệ-sách-kệ-trang-trí-i.1.2" → "Kệ sách kệ trang trí"
+    const productName = (u) => {
+      const seg = pretty(new URL(u).pathname).split("/").filter(Boolean)[0] || "";
+      const name = seg.replace(/-i\.\d+\.\d+$/, "").replace(/-/g, " ").trim();
+      return name && seg !== "product" ? name : pretty(u);
+    };
+    const line = (label, value) => {
+      const p = document.createElement("div");
       p.className = "res-row";
-      p.append(Object.assign(document.createElement("span"), { textContent: label }), " ", Object.assign(document.createElement("span"), { className: "res-url", textContent: text }));
+      const v = typeof value === "string" ? Object.assign(document.createElement("span"), { textContent: value }) : value;
+      v.classList.add("res-val");
+      p.append(Object.assign(document.createElement("span"), { className: "res-key", textContent: label }), v);
       return p;
     };
     $("results").replaceChildren(
@@ -100,7 +108,7 @@
         box.className = "res";
         if (x.error) {
           box.classList.add("err");
-          box.append(line("Lỗi:", `${x.line} — ${x.error}`));
+          box.append(line("Lỗi", `${x.error} ${x.line}`));
           return box;
         }
         const link = ShopeeLink.build(x.product, a.id);
@@ -110,7 +118,8 @@
         cp.onclick = () => copy(link, cp);
         const op = Object.assign(document.createElement("a"), { className: "btn-sm", textContent: "Mở link", href: link, target: "_blank", rel: "noopener" });
         btns.append(cp, op);
-        box.append(line("Sản phẩm:", pretty(x.product)), line("Link:", link), btns);
+        const name = Object.assign(document.createElement("a"), { href: x.product, target: "_blank", rel: "noopener", textContent: productName(x.product), className: "res-name" });
+        box.append(line("Sản phẩm", name), line("Link", Object.assign(document.createElement("span"), { className: "res-url", textContent: link })), btns);
         return box;
       })
     );
