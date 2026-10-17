@@ -261,3 +261,7 @@ h1 { font-weight: 600; }
 .res-line code { font: 12px ui-monospace, Menlo, monospace; background: var(--soft); border-radius: 6px; padding: 6px 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 @media (max-width: 640px) { .res-line { grid-template-columns: 1fr auto; } .res-line b { grid-column: 1 / -1; } .acc-row { grid-template-columns: 1fr 1fr 32px; } }
 .bar-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.acc-row{grid-template-columns:1fr 1fr auto auto}
+.who{margin:0 0 12px;padding:10px 14px;border-radius:10px;background:#eef4ff;color:#1d4ed8;font-weight:600}
+@media (max-width:640px){.acc-row{grid-template-columns:1fr 1fr}}

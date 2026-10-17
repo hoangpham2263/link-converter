@@ -7,7 +7,7 @@
     <title>Shopee Link Converter – Đổi nhiều link Shopee theo nhiều Affiliate ID</title>
     <link rel="icon" href="brand/favicon.ico" sizes="any" />
     <link rel="icon" href="brand/hp-favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="style.css?v=1" />
+    <link rel="stylesheet" href="style.css?v=2" />
   </head>
   <body>
     <main class="wrap">
@@ -19,8 +19,10 @@
         </div>
       </header>
 
-      <section class="convert">
-        <span class="label">Tài khoản (Affiliate ID Shopee) — lưu trong trình duyệt này</span>
+      <p id="who" class="who" hidden></p>
+
+      <section class="convert" id="accSection">
+        <span class="label">Tài khoản (Affiliate ID Shopee) — lưu trong trình duyệt này. Bấm “Chép link gửi bạn” để gửi trang đổi link riêng của từng tài khoản.</span>
         <div id="accounts" class="accounts"></div>
         <div class="bar-actions"><button id="addAcc" class="outline" type="button">+ Thêm tài khoản</button></div>
       </section>
@@ -47,6 +49,7 @@
         <ol>
           <li>Thêm một hoặc nhiều tài khoản: tên gợi nhớ + Affiliate ID Shopee (6–20 chữ số). Danh sách được lưu ngay trong trình duyệt.</li>
           <li>Dán nhiều link sản phẩm Shopee, mỗi dòng một link. Link đã gắn affiliate của người khác sẽ được gỡ ra lấy link gốc; tham số theo dõi thừa được xóa.</li>
+          <li>Muốn bạn bè tự đổi link theo tài khoản của bạn: bấm <b>Chép link gửi bạn</b> ở tài khoản đó và gửi đi. Người mở link chỉ thấy ô dán link, link đổi ra luôn gắn đúng Affiliate ID đó.</li>
           <li>Bấm <b>Đổi link</b>: mỗi sản phẩm có một link riêng cho từng tài khoản. Sao chép từng link, hoặc sao chép tất cả link của một tài khoản.</li>
         </ol>
         <p><b>Lưu ý:</b> link rút gọn (<code>s.shopee.vn/…</code>, <code>shp.ee/…</code>) cần mở ra trên trình duyệt để lấy link sản phẩm đầy đủ rồi mới dán vào, vì trang này chạy hoàn toàn trên máy bạn và không gọi máy chủ. Link tạo ra có dạng <code>s.shopee.vn/an_redir?origin_link=…&amp;affiliate_id=…</code>.</p>
@@ -54,7 +57,7 @@
 
       <footer class="muted small">Làm bởi <a href="https://hoangpham.is-a.dev" target="_blank" rel="noopener">Phạm Quốc Hoàng</a> · MIT</footer>
     </main>
-    <script src="shopee.js?v=1"></script>
-    <script src="app.js?v=1"></script>
+    <script src="shopee.js?v=2"></script>
+    <script src="app.js?v=2"></script>
   </body>
 </html>

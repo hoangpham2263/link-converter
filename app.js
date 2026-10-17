@@ -4,8 +4,12 @@
   const KEY = "slc-accounts";
   const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(accounts)); } catch {} };
-  let accounts = load();
+  // Share mode: ?id=<affiliate id>&n=<name> — a friend converts links for that one account only
+  const q = new URLSearchParams(location.search);
+  const shared = ShopeeLink.validId(q.get("id") || "") ? { name: q.get("n") || "", id: q.get("id") } : null;
+  let accounts = shared ? [shared] : load();
   if (!accounts.length) accounts = [{ name: "Tài khoản 1", id: "" }];
+  const shareUrl = (a) => `${location.origin}${location.pathname}?${new URLSearchParams({ id: a.id, n: a.name })}`;
 
   function renderAccounts() {
     $("accounts").replaceChildren(
@@ -19,7 +23,9 @@
         id.oninput = () => { a.id = id.value.trim(); id.classList.toggle("bad", !!a.id && !ShopeeLink.validId(a.id)); save(); };
         const rm = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm btn-icon", textContent: "✕", title: "Xóa" });
         rm.onclick = () => { accounts.splice(i, 1); if (!accounts.length) accounts.push({ name: "Tài khoản 1", id: "" }); save(); renderAccounts(); };
-        row.append(name, id, rm);
+        const share = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm", textContent: "Chép link gửi bạn" });
+        share.onclick = () => (ShopeeLink.validId(a.id) ? copy(shareUrl(a), share) : id.focus());
+        row.append(name, id, share, rm);
         return row;
       })
     );
@@ -78,5 +84,9 @@
   $("addAcc").onclick = () => { accounts.push({ name: `Tài khoản ${accounts.length + 1}`, id: "" }); save(); renderAccounts(); };
   $("run").onclick = run;
   $("clear").onclick = () => { $("links").value = ""; $("out").hidden = true; $("summary").textContent = ""; };
-  renderAccounts();
+  if (shared) {
+    $("accSection").hidden = true;
+    $("who").textContent = shared.name ? `Link đổi theo tài khoản của ${shared.name}` : "";
+    $("who").hidden = !shared.name;
+  } else renderAccounts();
 })();
