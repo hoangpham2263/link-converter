@@ -6,8 +6,8 @@
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(accounts)); } catch {} };
   // "Ngân PTK" → "ngan-ptk": lowercase, no diacritics, hyphens
   const slug = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/gi, "d").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-  // Share mode: /shopee-link-converter/<slug> (served by 404.html) or ?n=<slug>; the ID is looked up in accounts.json
-  const BASE = "/shopee-link-converter/";
+  // Share mode: /shopee/<slug> (served by 404.html) or ?n=<slug>; the ID is looked up in accounts.json
+  const BASE = "/shopee/";
   const tail = location.pathname.startsWith(BASE) ? location.pathname.slice(BASE.length).replace(/\/$/, "") : "";
   const n = new URLSearchParams(location.search).get("n") || (/^(index|404)(\.html)?$/.test(tail) ? "" : tail);
   let accounts = n ? [] : load();
