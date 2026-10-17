@@ -1,4 +1,4 @@
-// Many links × many affiliate IDs → one tracked link per product per account.
+// Admin page: manage accounts and publish accounts.json. Share page (/link-converter/<name>): convert Shopee links for one account.
 (() => {
   const $ = (id) => document.getElementById(id);
   const KEY = "slc-accounts";
@@ -24,13 +24,13 @@
         row.className = "acc-row";
         const name = Object.assign(document.createElement("input"), { value: a.name, placeholder: "Tên" });
         const id = Object.assign(document.createElement("input"), { value: a.id, placeholder: "Affiliate ID", inputMode: "numeric" });
-        const rm = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm btn-icon", textContent: "✕", title: "Xóa" });
+        const rm = Object.assign(document.createElement("button"), { type: "button", className: "icon", textContent: "✕", title: "Xóa" });
         const link = document.createElement("div");
         link.className = "acc-link";
-        const lbl = Object.assign(document.createElement("span"), { className: "acc-link-label", textContent: "Link:" });
-        const code = document.createElement("code");
-        const cp = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm btn-copy", textContent: "Sao chép" });
-        const open = Object.assign(document.createElement("a"), { className: "btn-sm", textContent: "Mở link", target: "_blank", rel: "noopener" });
+        const lbl = Object.assign(document.createElement("span"), { textContent: "Link:" });
+        const code = Object.assign(document.createElement("span"), { className: "url" });
+        const cp = Object.assign(document.createElement("button"), { type: "button", className: "primary", textContent: "Sao chép" });
+        const open = Object.assign(document.createElement("a"), { className: "btn", textContent: "Mở link", target: "_blank", rel: "noopener" });
         const sync = () => {
           id.classList.toggle("bad", !!a.id && !ShopeeLink.validId(a.id));
           const ok = ShopeeLink.validId(a.id) && slug(a.name);
@@ -41,7 +41,7 @@
         name.oninput = () => { a.name = name.value; save(); sync(); };
         id.oninput = () => { a.id = id.value.trim(); save(); sync(); };
         rm.onclick = () => { accounts.splice(i, 1); if (!accounts.length) accounts.push({ name: "Tài khoản 1", id: "" }); save(); renderAccounts(); };
-        cp.onclick = () => !link.classList.contains("off") && copy(code.textContent, cp);
+        cp.onclick = () => !link.classList.contains("off") && copy(code.textContent);
         row.append(name, id, rm);
         link.append(lbl, code, cp, open);
         box.append(row, link);
@@ -61,7 +61,7 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => el.classList.remove("show"), 1800);
   };
-  const copy = async (text, btn) => {
+  const copy = async (text) => {
     try { await navigator.clipboard.writeText(text); toast("✓ Đã sao chép"); }
     catch { toast("Không sao chép được — hãy chép thủ công"); }
   };
@@ -82,8 +82,8 @@
     const bad = items.length - ok.length;
     $("summary").textContent = bad ? `${bad} link không đổi được` : "";
 
-    const all = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm btn-copy", textContent: "Sao chép tất cả" });
-    all.onclick = () => copy(ok.map((x) => ShopeeLink.build(x.product, a.id)).join("\n"), all);
+    const all = Object.assign(document.createElement("button"), { type: "button", className: "primary", textContent: "Sao chép tất cả" });
+    all.onclick = () => copy(ok.map((x) => ShopeeLink.build(x.product, a.id)).join("\n"));
     $("copyAll").replaceChildren(...(ok.length > 1 ? [all] : []));
     $("copyAll").hidden = ok.length < 2;
 
@@ -94,31 +94,23 @@
       const name = seg.replace(/-i\.\d+\.\d+$/, "").replace(/-/g, " ").trim();
       return name && seg !== "product" ? name : pretty(u);
     };
-    const line = (label, value) => {
-      const p = document.createElement("div");
-      p.className = "res-row";
-      const v = typeof value === "string" ? Object.assign(document.createElement("span"), { textContent: value }) : value;
-      v.classList.add("res-val");
-      p.append(Object.assign(document.createElement("span"), { className: "res-key", textContent: label }), v);
-      return p;
-    };
     $("results").replaceChildren(
       ...items.map((x) => {
         const box = document.createElement("div");
         box.className = "res";
         if (x.error) {
           box.classList.add("err");
-          box.append(line("Lỗi", `${x.error} ${x.line}`));
+          box.textContent = `${x.error} ${x.line}`;
           return box;
         }
         const link = ShopeeLink.build(x.product, a.id);
         const name = Object.assign(document.createElement("a"), { href: x.product, target: "_blank", rel: "noopener", textContent: productName(x.product), className: "res-name", title: pretty(x.product) });
         const row = document.createElement("div");
         row.className = "res-link";
-        const url = Object.assign(document.createElement("span"), { className: "res-url", textContent: `https://s.shopee.vn/an_redir?origin_link=${pretty(x.product.split("?")[0])}${x.product.includes("?") ? "?…" : ""}&affiliate_id=${a.id}`, title: link });
-        const cp = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm btn-copy", textContent: "Sao chép" });
-        cp.onclick = () => copy(link, cp);
-        const op = Object.assign(document.createElement("a"), { className: "btn-sm", textContent: "Mở link", href: link, target: "_blank", rel: "noopener" });
+        const url = Object.assign(document.createElement("span"), { className: "url", textContent: `https://s.shopee.vn/an_redir?origin_link=${pretty(x.product.split("?")[0])}${x.product.includes("?") ? "?…" : ""}&affiliate_id=${a.id}`, title: link });
+        const cp = Object.assign(document.createElement("button"), { type: "button", className: "primary", textContent: "Sao chép" });
+        cp.onclick = () => copy(link);
+        const op = Object.assign(document.createElement("a"), { className: "btn", textContent: "Mở link", href: link, target: "_blank", rel: "noopener" });
         row.append(url, cp, op);
         box.append(name, row);
         return box;
@@ -142,7 +134,8 @@
   // Publish accounts.json to the repo through the GitHub API (token kept only in this browser)
   const REPO = "hoangpham2263/link-converter";
   async function publish() {
-    const btn = $("publish"), say = (t) => ($("pubStatus").textContent = t);
+    const btn = $("publish");
+    const say = (t, kind = "") => { $("pubStatus").textContent = t; $("pubStatus").className = `status small ${kind}`; };
     const out = {};
     for (const a of accounts) if (ShopeeLink.validId(a.id) && slug(a.name)) out[slug(a.name)] = { name: a.name, id: a.id };
     let token = localStorage.getItem("slc-token");

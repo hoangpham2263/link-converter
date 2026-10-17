@@ -6,47 +6,45 @@
     <base href="/link-converter/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
-    <title>Shopee Link Converter – Đổi nhiều link Shopee theo nhiều Affiliate ID</title>
+    <title>Link Converter – Đổi link Shopee theo tài khoản</title>
     <link rel="icon" href="brand/favicon.ico" sizes="any" />
     <link rel="icon" href="brand/hp-favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="style.css?v=32" />
+    <link rel="stylesheet" href="style.css?v=33" />
   </head>
   <body>
     <main class="wrap">
       <header class="top">
         <a class="brand" href="https://hoangpham.is-a.dev" aria-label="HoangPham"><img src="brand/hp-icon.svg" alt="HoangPham" width="40" height="40" /></a>
         <div class="top-text"><h1>Đổi link Shopee</h1></div>
-        <div class="top-actions">
-          <a class="ghost back" href="https://hoangpham.is-a.dev/tools">← Portfolio</a>
-        </div>
+        <a class="back" href="https://hoangpham.is-a.dev/tools">← Portfolio</a>
       </header>
 
       <div id="who" class="who" hidden></div>
 
-      <section class="convert" id="accSection">
-        <div class="sec-head"><h2>Tài khoản</h2><span id="accCount" class="muted small"></span></div>
+      <section class="card" id="accSection">
+        <div class="sec-head"><h2>Tài khoản</h2><span id="accCount" class="small"></span></div>
         <div class="acc-head"><span>Tên</span><span>Affiliate ID</span><span></span></div>
         <div id="accounts" class="accounts"></div>
         <div class="publish-bar">
-          <p id="pubStatus" class="pub-status muted small"></p>
-          <div class="publish-actions"><button id="addAcc" class="outline" type="button">+ Thêm tài khoản</button><button id="publish" class="primary" type="button">Cập nhật lên GitHub</button></div>
+          <p id="pubStatus" class="status small"></p>
+          <div class="actions"><button id="addAcc" type="button">+ Thêm tài khoản</button><button id="publish" class="primary" type="button">Cập nhật lên GitHub</button></div>
         </div>
       </section>
 
-      <section class="convert" id="convSection">
+      <section class="card" id="convSection">
         <div class="field">
           <label for="links">Link sản phẩm Shopee — mỗi dòng một link</label>
           <textarea id="links" placeholder="Ví dụ: https://shopee.vn/..."></textarea>
         </div>
-        <div class="bar-actions run-actions">
-          <button id="clear" class="outline" type="button">Xóa</button>
+        <div class="actions">
+          <button id="clear" type="button">Xóa</button>
           <button id="run" class="primary" type="button">Đổi link</button>
         </div>
-        <p id="summary" class="label small"></p>
+        <p id="summary" class="summary"></p>
       </section>
 
       <section id="out" hidden>
-        <div class="bar-actions" id="copyAll" style="margin-bottom:10px"></div>
+        <div class="actions" id="copyAll"></div>
         <div id="results" class="results"></div>
       </section>
 
@@ -62,7 +60,7 @@
 
       <footer class="muted small">Làm bởi <a href="https://hoangpham.is-a.dev" target="_blank" rel="noopener">Phạm Quốc Hoàng</a> · MIT</footer>
     </main>
-    <script src="shopee.js?v=32"></script>
-    <script src="app.js?v=32"></script>
+    <script src="shopee.js?v=33"></script>
+    <script src="app.js?v=33"></script>
   </body>
 </html>
