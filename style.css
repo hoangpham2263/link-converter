@@ -314,3 +314,19 @@ h1 { font-weight: 600; }
 .who-tag{flex:none;padding:5px 10px;border-radius:999px;background:#fff1ec;color:#d73211;font-size:12px;font-weight:600}
 .who.missing{background:#fef2f2;border-color:#fecaca;color:#b91c1c;font-weight:600}
 @media (max-width:640px){.who-tag{display:none}}
+.acc-link .btn-sm{display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--fg);font:inherit;font-size:13px;font-weight:600;white-space:nowrap;text-decoration:none;cursor:pointer}
+.acc-link .btn-sm:hover{background:#f8fafc}
+@media (max-width:640px){
+  .acc-link{grid-template-columns:1fr 1fr}
+  .acc-link-label,.acc-link code{grid-column:1/-1}
+  .acc-link .btn-sm{height:38px}
+}
+.accounts,.acc,.acc-row,.acc-link{min-width:0}
+.acc-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 32px}
+.acc-row input{min-width:0;width:100%}
+.acc-link{grid-template-columns:auto minmax(0,1fr) auto auto}
+.acc-link code{min-width:0;display:block}
+@media (max-width:640px){
+  .acc-link{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .acc-link .btn-sm{width:100%;padding:0}
+}
