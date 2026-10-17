@@ -4,14 +4,12 @@
   const KEY = "slc-accounts";
   const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(accounts)); } catch {} };
-  // Share mode: ?id=<affiliate id>&n=<name> — a friend converts links for that one account only
-  const q = new URLSearchParams(location.search);
-  const shared = ShopeeLink.validId(q.get("id") || "") ? { name: (q.get("n") || "").split("-").filter(Boolean).map((w) => w[0].toUpperCase() + w.slice(1)).join(" "), id: q.get("id") } : null;
-  let accounts = shared ? [shared] : load();
-  if (!accounts.length) accounts = [{ name: "Tài khoản 1", id: "" }];
   // "Ngân PTK" → "ngan-ptk": lowercase, no diacritics, hyphens
   const slug = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/gi, "d").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-  const shareUrl = (a) => `${location.origin}${location.pathname}?${new URLSearchParams(slug(a.name) ? { n: slug(a.name), id: a.id } : { id: a.id })}`;
+  // Share mode: ?n=<slug> — the ID is looked up in accounts.json, so the link carries only the name
+  const n = new URLSearchParams(location.search).get("n");
+  let accounts = n ? [] : load();
+  if (!n && !accounts.length) accounts = [{ name: "Tài khoản 1", id: "" }];
 
   function renderAccounts() {
     $("accounts").replaceChildren(
@@ -26,7 +24,7 @@
         const rm = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm btn-icon", textContent: "✕", title: "Xóa" });
         rm.onclick = () => { accounts.splice(i, 1); if (!accounts.length) accounts.push({ name: "Tài khoản 1", id: "" }); save(); renderAccounts(); };
         const share = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm", textContent: "Chép link gửi bạn" });
-        share.onclick = () => (ShopeeLink.validId(a.id) ? copy(shareUrl(a), share) : id.focus());
+        share.onclick = () => (!ShopeeLink.validId(a.id) ? id.focus() : !slug(a.name) ? name.focus() : copy(shareUrl(a), share));
         row.append(name, id, share, rm);
         return row;
       })
@@ -86,9 +84,25 @@
   $("addAcc").onclick = () => { accounts.push({ name: `Tài khoản ${accounts.length + 1}`, id: "" }); save(); renderAccounts(); };
   $("run").onclick = run;
   $("clear").onclick = () => { $("links").value = ""; $("out").hidden = true; $("summary").textContent = ""; };
-  if (shared) {
+  // accounts.json for the published site: { "ngan-ptk": { "name": "Ngân PTK", "id": "17…" } }
+  $("export").onclick = () => {
+    const out = {};
+    for (const a of accounts) if (ShopeeLink.validId(a.id) && slug(a.name)) out[slug(a.name)] = { name: a.name, id: a.id };
+    copy(JSON.stringify(out, null, 2) + "\n", $("export"));
+  };
+
+  if (n) {
     $("accSection").hidden = true;
-    $("who").textContent = shared.name ? `Link đổi theo tài khoản của ${shared.name}` : "";
-    $("who").hidden = !shared.name;
+    fetch("accounts.json", { cache: "no-store" }).then((r) => r.json()).catch(() => ({})).then((all) => {
+      const a = all[slug(n)];
+      if (a && ShopeeLink.validId(a.id)) {
+        accounts = [a];
+        $("who").textContent = `Link đổi theo tài khoản của ${a.name}`;
+      } else {
+        $("who").textContent = "Không tìm thấy tài khoản này — kiểm tra lại link.";
+        $("run").disabled = true;
+      }
+      $("who").hidden = false;
+    });
   } else renderAccounts();
 })();
