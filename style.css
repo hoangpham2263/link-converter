@@ -412,3 +412,8 @@ input:focus, textarea:focus, select:focus,
 /* Copy = primary action, Mở link = secondary */
 .acc-link .btn-copy,.res-link .btn-copy,#copyAll .btn-copy{background:var(--primary);border-color:var(--primary);color:#fff}
 .acc-link .btn-copy:hover,.res-link .btn-copy:hover,#copyAll .btn-copy:hover{background:var(--primary);filter:brightness(.92)}
+
+.publish-actions{display:flex;gap:8px}
+#addAcc{height:36px;padding:0 16px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--fg);font-size:14px;font-weight:400}
+#addAcc:hover{background:#f8fafc}
+@media (max-width:640px){.publish-actions{display:grid;grid-template-columns:1fr 1fr}}
