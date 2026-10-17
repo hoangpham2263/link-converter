@@ -399,3 +399,12 @@ input:focus, textarea:focus, select:focus,
   .res-actions .btn-sm,#copyAll .btn-sm{width:100%}
   #copyAll{display:grid}
 }
+
+/* Result card: product name, then one link row like the admin page */
+.res{gap:8px}
+.res-name{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}
+.res-link{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:center}
+.res-link .res-url{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;word-break:normal;color:var(--muted,#64748b);font-size:13px}
+.res-link .btn-sm{display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--fg);font:inherit;font-size:14px;font-weight:400;white-space:nowrap;text-decoration:none;cursor:pointer}
+.res-link .btn-sm:hover{background:#f8fafc}
+@media (max-width:640px){.res-link{grid-template-columns:1fr 1fr}.res-link .res-url{grid-column:1/-1}.res-link .btn-sm{width:100%}}

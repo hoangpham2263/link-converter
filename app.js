@@ -112,14 +112,15 @@
           return box;
         }
         const link = ShopeeLink.build(x.product, a.id);
-        const btns = document.createElement("div");
-        btns.className = "res-actions";
+        const name = Object.assign(document.createElement("a"), { href: x.product, target: "_blank", rel: "noopener", textContent: productName(x.product), className: "res-name", title: pretty(x.product) });
+        const row = document.createElement("div");
+        row.className = "res-link";
+        const url = Object.assign(document.createElement("span"), { className: "res-url", textContent: `https://s.shopee.vn/an_redir?origin_link=${pretty(x.product)}&affiliate_id=${a.id}`, title: link });
         const cp = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm", textContent: "Sao chép" });
         cp.onclick = () => copy(link, cp);
         const op = Object.assign(document.createElement("a"), { className: "btn-sm", textContent: "Mở link", href: link, target: "_blank", rel: "noopener" });
-        btns.append(cp, op);
-        const name = Object.assign(document.createElement("a"), { href: x.product, target: "_blank", rel: "noopener", textContent: productName(x.product), className: "res-name" });
-        box.append(line("Sản phẩm", name), line("Link", Object.assign(document.createElement("span"), { className: "res-url", textContent: `https://s.shopee.vn/an_redir?origin_link=${pretty(x.product)}&affiliate_id=${a.id}`, title: link })), btns);
+        row.append(url, cp, op);
+        box.append(name, row);
         return box;
       })
     );
