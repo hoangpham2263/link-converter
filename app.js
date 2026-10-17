@@ -12,23 +12,39 @@
   const n = new URLSearchParams(location.search).get("n") || (/^(index|404)(\.html)?$/.test(tail) ? "" : tail);
   let accounts = n ? [] : load();
   if (!n && !accounts.length) accounts = [{ name: "Tài khoản 1", id: "" }];
+  const shareUrl = (a) => `${location.origin}${BASE}${slug(a.name)}`;
 
   function renderAccounts() {
     $("accounts").replaceChildren(
       ...accounts.map((a, i) => {
+        const box = document.createElement("div");
+        box.className = "acc";
         const row = document.createElement("div");
         row.className = "acc-row";
-        const name = Object.assign(document.createElement("input"), { value: a.name, placeholder: "Tên gợi nhớ" });
+        const name = Object.assign(document.createElement("input"), { value: a.name, placeholder: "Tên (duy nhất)" });
         const id = Object.assign(document.createElement("input"), { value: a.id, placeholder: "Affiliate ID (6–20 số)", inputMode: "numeric" });
-        id.classList.toggle("bad", !!a.id && !ShopeeLink.validId(a.id));
-        name.oninput = () => { a.name = name.value; save(); };
-        id.oninput = () => { a.id = id.value.trim(); id.classList.toggle("bad", !!a.id && !ShopeeLink.validId(a.id)); save(); };
         const rm = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm btn-icon", textContent: "✕", title: "Xóa" });
+        const link = document.createElement("div");
+        link.className = "acc-link";
+        const code = document.createElement("code");
+        const cp = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm", textContent: "Chép" });
+        const open = Object.assign(document.createElement("a"), { className: "btn-sm", textContent: "Mở", target: "_blank", rel: "noopener" });
+        const sync = () => {
+          id.classList.toggle("bad", !!a.id && !ShopeeLink.validId(a.id));
+          const ok = ShopeeLink.validId(a.id) && slug(a.name);
+          code.textContent = ok ? shareUrl(a) : "Nhập tên và Affiliate ID hợp lệ để có link";
+          link.classList.toggle("off", !ok);
+          open.href = ok ? shareUrl(a) : "#";
+        };
+        name.oninput = () => { a.name = name.value; save(); sync(); };
+        id.oninput = () => { a.id = id.value.trim(); save(); sync(); };
         rm.onclick = () => { accounts.splice(i, 1); if (!accounts.length) accounts.push({ name: "Tài khoản 1", id: "" }); save(); renderAccounts(); };
-        const share = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm", textContent: "Chép link gửi bạn" });
-        share.onclick = () => (!ShopeeLink.validId(a.id) ? id.focus() : !slug(a.name) ? name.focus() : copy(shareUrl(a), share));
-        row.append(name, id, share, rm);
-        return row;
+        cp.onclick = () => !link.classList.contains("off") && copy(code.textContent, cp);
+        row.append(name, id, rm);
+        link.append(code, cp, open);
+        box.append(row, link);
+        sync();
+        return box;
       })
     );
   }
@@ -86,12 +102,36 @@
   $("addAcc").onclick = () => { accounts.push({ name: `Tài khoản ${accounts.length + 1}`, id: "" }); save(); renderAccounts(); };
   $("run").onclick = run;
   $("clear").onclick = () => { $("links").value = ""; $("out").hidden = true; $("summary").textContent = ""; };
-  // accounts.json for the published site: { "ngan-ptk": { "name": "Ngân PTK", "id": "17…" } }
-  $("export").onclick = () => {
+  // Publish accounts.json to the repo through the GitHub API (token kept only in this browser)
+  const REPO = "hoangpham2263/shopee";
+  async function publish() {
+    const btn = $("publish"), say = (t) => ($("pubStatus").textContent = t);
     const out = {};
     for (const a of accounts) if (ShopeeLink.validId(a.id) && slug(a.name)) out[slug(a.name)] = { name: a.name, id: a.id };
-    copy(JSON.stringify(out, null, 2) + "\n", $("export"));
-  };
+    let token = localStorage.getItem("slc-token");
+    if (!token) {
+      token = (prompt("Dán GitHub token (fine-grained, chỉ repo shopee, quyền Contents: Read and write):") || "").trim();
+      if (!token) return;
+      localStorage.setItem("slc-token", token);
+    }
+    btn.disabled = true;
+    say("Đang cập nhật…");
+    try {
+      const api = `https://api.github.com/repos/${REPO}/contents/accounts.json`;
+      const headers = { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" };
+      const cur = await fetch(api, { headers, cache: "no-store" });
+      if (cur.status === 401) { localStorage.removeItem("slc-token"); throw new Error("Token sai hoặc hết hạn — bấm lại để nhập token mới."); }
+      const { sha } = cur.ok ? await cur.json() : {};
+      const content = btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(out, null, 2) + "\n")));
+      const r = await fetch(api, { method: "PUT", headers, body: JSON.stringify({ message: "data: update accounts", content, sha }) });
+      if (!r.ok) throw new Error(`GitHub trả lỗi ${r.status}`);
+      say(`Đã cập nhật ${Object.keys(out).length} tài khoản — link mới chạy sau khoảng 1 phút.`);
+    } catch (e) {
+      say(e.message);
+    }
+    btn.disabled = false;
+  }
+  $("publish").onclick = publish;
 
   if (n) {
     $("accSection").hidden = true;
@@ -106,5 +146,13 @@
       }
       $("who").hidden = false;
     });
-  } else renderAccounts();
+  } else {
+    $("convSection").hidden = true;
+    renderAccounts();
+    // First visit on a new browser: start from the published list
+    if (!load().length) fetch("accounts.json", { cache: "no-store" }).then((r) => r.json()).then((all) => {
+      const list = Object.values(all);
+      if (list.length) { accounts = list; save(); renderAccounts(); }
+    }).catch(() => {});
+  }
 })();

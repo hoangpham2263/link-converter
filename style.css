@@ -265,3 +265,12 @@ h1 { font-weight: 600; }
 .acc-row{grid-template-columns:1fr 1fr auto auto}
 .who{margin:0 0 12px;padding:10px 14px;border-radius:10px;background:#eef4ff;color:#1d4ed8;font-weight:600}
 @media (max-width:640px){.acc-row{grid-template-columns:1fr 1fr}}
+.acc{display:grid;gap:6px;padding-bottom:10px;border-bottom:1px dashed var(--border)}
+.acc:last-child{border-bottom:0}
+.acc-row{grid-template-columns:1fr 1fr 32px}
+.acc-link{display:flex;gap:6px;align-items:center;min-width:0}
+.acc-link code{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:6px 10px;border-radius:8px;background:var(--soft,#f3f4f6);font-size:13px}
+.acc-link a.btn-sm{text-decoration:none;display:inline-flex;align-items:center}
+.acc-link.off code{color:var(--muted,#888)}
+.acc-link.off button,.acc-link.off a{opacity:.4;pointer-events:none}
+@media (max-width:640px){.acc-row{grid-template-columns:1fr 1fr 32px}}
