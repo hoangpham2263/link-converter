@@ -358,3 +358,5 @@ input:focus, textarea:focus, select:focus,
 .add-acc:hover{color:var(--primary)}
 .publish-bar{margin-top:12px;padding-top:12px}
 .acc-link code{background:none;padding:0;border-radius:0;font-family:inherit;font-size:14px}
+/* One text color and size for labels and values */
+.acc-head,.acc-link-label,#accCount{color:var(--fg);font-size:14px}
