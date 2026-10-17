@@ -22,8 +22,8 @@
         box.className = "acc";
         const row = document.createElement("div");
         row.className = "acc-row";
-        const name = Object.assign(document.createElement("input"), { value: a.name, placeholder: "Tên (duy nhất)" });
-        const id = Object.assign(document.createElement("input"), { value: a.id, placeholder: "Affiliate ID (6–20 số)", inputMode: "numeric" });
+        const name = Object.assign(document.createElement("input"), { value: a.name, placeholder: "Tên" });
+        const id = Object.assign(document.createElement("input"), { value: a.id, placeholder: "Affiliate ID", inputMode: "numeric" });
         const rm = Object.assign(document.createElement("button"), { type: "button", className: "btn-sm btn-icon", textContent: "✕", title: "Xóa" });
         const link = document.createElement("div");
         link.className = "acc-link";
@@ -34,7 +34,7 @@
         const sync = () => {
           id.classList.toggle("bad", !!a.id && !ShopeeLink.validId(a.id));
           const ok = ShopeeLink.validId(a.id) && slug(a.name);
-          code.textContent = ok ? shareUrl(a) : "Nhập tên và Affiliate ID hợp lệ để có link";
+          code.textContent = ok ? shareUrl(a) : "Nhập tên và ID";
           link.classList.toggle("off", !ok);
           open.href = ok ? shareUrl(a) : "#";
         };
@@ -138,7 +138,7 @@
       const content = btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(out, null, 2) + "\n")));
       const r = await fetch(api, { method: "PUT", headers, body: JSON.stringify({ message: "data: update accounts", content, sha }) });
       if (!r.ok) throw new Error(`GitHub trả lỗi ${r.status}`);
-      say(`✓ Đã cập nhật ${Object.keys(out).length} tài khoản lên GitHub — link mới chạy sau khoảng 1 phút.`, "ok");
+      say(`✓ Đã cập nhật ${Object.keys(out).length} tài khoản`, "ok");
     } catch (e) {
       say(e.message, "err");
     }

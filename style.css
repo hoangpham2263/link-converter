@@ -346,3 +346,14 @@ input:focus, textarea:focus, select:focus,
 
 .toast{position:fixed;left:50%;bottom:24px;z-index:50;transform:translate(-50%,12px);padding:10px 16px;border-radius:10px;background:#0f172a;color:#fff;font-size:14px;font-weight:500;box-shadow:0 8px 24px rgba(15,23,42,.18);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
 .toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* Lighter weights, less noise */
+.sec-head{align-items:baseline;margin-bottom:10px}
+.sec-head h2{font-size:16px;font-weight:600;margin:0}
+.acc-head{text-transform:none;letter-spacing:0;font-weight:400;font-size:13px}
+.acc-link-label{font-weight:400}
+.acc-link .btn-sm,.add-acc,.pub-status.ok,.pub-status.err,.toast{font-weight:400}
+.acc-link code{color:var(--fg)}
+.add-acc{color:var(--muted,#64748b)}
+.add-acc:hover{color:var(--primary)}
+.publish-bar{margin-top:12px;padding-top:12px}
