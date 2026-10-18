@@ -39,7 +39,8 @@
     const u = unwrap(url);
     if (isProduct(u)) return { product: clean(u).toString() };
     if (isRedirect(u)) return { error: "Link affiliate này không chứa link sản phẩm." };
-    return { error: "Link rút gọn — mở link trên trình duyệt rồi dán link sản phẩm đầy đủ." };
+    // Short link (s.shopee.vn/xxx, shp.ee/xxx): the page resolves it through the Worker
+    return { short: url.toString(), error: "Không mở được link rút gọn." };
   }
 
   const validId = (id) => /^\d{6,20}$/.test(String(id).trim());

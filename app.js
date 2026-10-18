@@ -66,14 +66,33 @@
     catch { toast("Không sao chép được — hãy chép thủ công"); }
   };
 
-  function run() {
+  // Cloudflare Worker that follows short-link redirects (see worker/index.js)
+  const RESOLVER = "https://link-converter-resolve.hoangpham2263.workers.dev/";
+  const resolveShort = async (url) => {
+    try {
+      const r = await (await fetch(`${RESOLVER}?url=${encodeURIComponent(url)}`)).json();
+      return r.url ? ShopeeLink.readLine(r.url) : { error: r.error || "Không mở được link rút gọn." };
+    } catch {
+      return { error: "Không mở được link rút gọn." };
+    }
+  };
+
+  async function run() {
     const valid = accounts.filter((a) => ShopeeLink.validId(a.id));
     const lines = $("links").value.split("\n").map((s) => s.trim()).filter(Boolean);
     if (!valid.length) { $("summary").textContent = "Thêm ít nhất một Affiliate ID hợp lệ (6–20 chữ số)."; return; }
     if (!lines.length) { $("summary").textContent = "Dán ít nhất một link Shopee."; return; }
     const seen = new Set();
-    const items = lines.map((line) => {
+    $("run").disabled = true;
+    $("run").textContent = "Đang đổi…";
+    const read = await Promise.all(lines.map((line) => {
       const r = ShopeeLink.readLine(line);
+      return r.short ? resolveShort(r.short) : r;
+    }));
+    $("run").disabled = false;
+    $("run").textContent = "Đổi link";
+    const items = lines.map((line, i) => {
+      const r = read[i];
       if (r.product) { if (seen.has(r.product)) return { line, error: "Trùng với link phía trên." }; seen.add(r.product); }
       return { line, ...r };
     });

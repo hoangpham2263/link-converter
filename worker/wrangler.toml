@@ -1,0 +1,5 @@
+name = "link-converter-resolve"
+main = "index.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+account_id = "20187715d7c7715eb7cf02f1ca1f5a84"
