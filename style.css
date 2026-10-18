@@ -124,3 +124,8 @@ button:disabled { opacity: .5; cursor: default; }
   #copyAll { grid-template-columns: 1fr; }
   .acc-link button, .acc-link .btn, .res-link button, .res-link .btn, #copyAll button { width: 100%; }
 }
+
+/* Mobile: 16px form text so iOS does not zoom in on focus */
+@media (max-width: 640px) {
+  input, select, textarea { font-size: 16px !important; }
+}
